@@ -1,0 +1,12 @@
+# ninja log v5
+0	423	1770642764419724346	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	9884cfe83fa21e5c
+424	649	1770642764615385976	/Users/carhvax/Unity/Hustle Racing/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3v286a53/obj/arm64-v8a/libswappywrapper.so	c52db2a77cd1705e
+7	2846	1770642766827973136	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	3f3518bd82c923fa
+3	2966	1770642766901248252	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	5d982be8fec8af31
+28	3081	1770642767070342445	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	a54b63920e6241eb
+14	3172	1770642767152589888	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	cfb2237c6460bcd0
+5	3213	1770642767201586619	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	8fc4158fd682575d
+23	3309	1770642767297411405	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	efa18c9f6f9c6467
+2	3477	1770642767469431277	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	aec9d1b8e77eeb37
+11	3595	1770642767587853983	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	4f4b242ec7eb9584
+3596	3739	1770642767732347416	/Users/carhvax/Unity/Hustle Racing/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3v286a53/obj/arm64-v8a/libgame.so	21a290411ab42e45
