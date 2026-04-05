@@ -17,3 +17,6 @@ MonoBehaviour:
   _eggMask:
     serializedVersion: 2
     m_Bits: 64
+  _foodToSplit: 2
+  _childrenCount: 1
+  _mutationChance: 10

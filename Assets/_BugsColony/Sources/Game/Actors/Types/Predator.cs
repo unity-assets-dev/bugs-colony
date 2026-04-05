@@ -6,6 +6,8 @@ public interface IPredatorModel {
      float SearchRadius { get; }
      float LifeTime { get; }
      LayerMask ActorMask { get; }
+     bool RenewOnSupply { get; }
+     bool CanMutateInto(int collectedFood, Vector3 position, ISimulationController simulation);
 }
 
 public class Predator : IBugActor, IInteractionHandler, IConsumableTarget {
@@ -57,15 +59,16 @@ public class Predator : IBugActor, IInteractionHandler, IConsumableTarget {
     public void ConsumeTarget(IActor actor) {
         if (actor is IConsumableTarget target) {
             _collectedFood++;
-            ReloadTimer();
+            
+            if(_model.RenewOnSupply)
+                ReloadTimer();
 
             OnStateChanged?.Invoke(ActorStateAction.Consume(this, target));
         }
     }
 
     public void OnMutate(ISimulationController simulation) {
-        if (_collectedFood >= 3) {
-            simulation.AddCocoon<Predator>(Position);
+        if (_model.CanMutateInto(_collectedFood, Position, simulation)) {
             _collectedFood = 0;
             ReloadTimer();
         }

@@ -2,6 +2,14 @@
 
 **web-deploy**: [link](https://unity-assets-dev.github.io/bugs-colony/)
 
+Used plugins: **Zenject, DoTween\PrimeTween, NaugthlyAttributes**
+Based on custom selfmade UIKit;
+Patterns to use: **Strategy, DoubleDispatch, Command, AbstactFactory, Proxy, UI MVVM, StateMachine, States**
+
+NavMesh Agent through the HeatMap which I realized with a BurstCompile and IJobParallelFor multithread
+
+### Heat map example ###
+![HeatMap example](/heat-map.jpg)
 ___
 ## Description
 

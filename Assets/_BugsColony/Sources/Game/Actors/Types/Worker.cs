@@ -5,6 +5,8 @@ using Random = UnityEngine.Random;
 public interface IWorkerModel {
     float SearchRadius { get; }
     LayerMask EggMask  { get; }
+    
+    bool CanMutateInto(int collectedFood, Vector3 position, ISimulationController simulation);
 }
 
 public class Worker : IBugActor, IInteractionHandler, IConsumableTarget {
@@ -58,15 +60,10 @@ public class Worker : IBugActor, IInteractionHandler, IConsumableTarget {
     public void OnConsume() => SetState(ActorState.Died);
 
     public void OnMutate(ISimulationController simulation) {
-        if (_collectedFood >= 2) {
+        if (_model.CanMutateInto(_collectedFood, Position, simulation)) {
             _collectedFood = 0;
             
-            if(Random.Range(0, 100) <= 10 && simulation.CountOf<Worker>() > 10) {
-                simulation.AddCocoon<Predator>(Position);
-                return;
-            }
             
-            simulation.AddCocoon<Worker>(Position);
         }
     }
 

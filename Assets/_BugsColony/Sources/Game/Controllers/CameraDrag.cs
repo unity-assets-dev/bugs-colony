@@ -23,7 +23,7 @@ public class CameraDrag : MonoBehaviour {
         
         if (Input.GetMouseButton(0)) {
             var offset = (Input.mousePosition - _startDrag) * .05f;
-            transform.position = RotateToCameraRotation(Vector3.up * 20 + new  Vector3(offset.x, 0, offset.y));
+            transform.position = RotateToCameraRotation(Vector3.up * 20 - new  Vector3(offset.x, 0, offset.y));
         }
     }
 

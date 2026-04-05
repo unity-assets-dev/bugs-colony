@@ -18,3 +18,6 @@ MonoBehaviour:
   _actorMask:
     serializedVersion: 2
     m_Bits: 64
+  _foodToSplit: 3
+  _childrenCount: 1
+  _renewOnSupply: 1
