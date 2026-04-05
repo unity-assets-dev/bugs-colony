@@ -5,6 +5,9 @@ public class UIKitInstaller : KitInstallerBase {
     
     protected override void BindServices() {
         Container
+            .BindAsSingleFromInstanceMono<CameraDrag>();
+        
+        Container
             .BindAsSingleFromInstanceMono<ScenarioMap>();
         
         _pools.EachNonAlloc(pool => Container.BindAsSingleFromInstance(pool));

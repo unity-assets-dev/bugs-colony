@@ -5,22 +5,36 @@ using UnityEngine;
 public class SimulationController: ISimulationController {
     
     private readonly ActorContainer _container;
+    private readonly CameraDrag _camera;
     private readonly ScenarioMap _map;
     private readonly ActorFactory _factory;
     private float _timer;
+    private Player _player;
 
     public event Action<IActor> ActorDied;
     
-    public SimulationController(ActorContainer container, ScenarioMap map, ActorFactory factory) {
+    public SimulationController(ActorContainer container, CameraDrag camera, ScenarioMap map, ActorFactory factory) {
         _container = container;
+        _camera = camera;
         _map = map;
         _factory = factory;
     }
 
     public void Startup() {
+        _container.ActorSpawn += OnActorWasSpawned;
+        
         // TODO: Place any food and first workers;
         _map.RequestPosition(-.5f, 10).EachNonAlloc(position => AddCocoon<Worker>(position));
         _map.RequestPosition(-.25f, 5).EachNonAlloc(position => AddEgg<Egg>(position));
+        
+        AddCocoon<Player>(_map.RequestWarmThan(.5f));
+    }
+
+    private void OnActorWasSpawned(IActor actor) {
+        if (actor is Player player) {
+            _player = player;
+            _camera.Follow(_player.Position);
+        }
     }
 
     public int CountOf<TActor>() where TActor : IActor => _container.OfType<TActor>().Count();
@@ -109,10 +123,15 @@ public class SimulationController: ISimulationController {
             var heatMap = _container.Get<IBugActor>().Select(a => a.Position).ToArray();
             _map.Heat(heatMap, .5f);
         }
+
+        if (_player != null) {
+            _camera.Follow(_player.Position);
+        }
     }
 
     public void Dispose() {
         // Free resources;
+        _container.ActorSpawn -= OnActorWasSpawned;
         _container.Dispose().EachNonAlloc(DisposeActor);
         _map.ResetMap();
     }

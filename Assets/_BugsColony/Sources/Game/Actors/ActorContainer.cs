@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,8 @@ public class ActorContainer: IEnumerable<IActor> {
     
     private readonly HashSet<IActor> _income = new();
     private readonly HashSet<IActor> _outcome = new();
-    
+    public event Action<IActor> ActorSpawn;
+
 
     public void AddActor(IActor actor) => _income.Add(actor);
 
@@ -23,7 +25,10 @@ public class ActorContainer: IEnumerable<IActor> {
     private void MergeQueues() {
 
         foreach (var actor in _outcome) _actors.Remove(actor);
-        foreach (var actor in _income) _actors.Add(actor);
+        foreach (var actor in _income) {
+            _actors.Add(actor);
+            ActorSpawn?.Invoke(actor);
+        }
         
         _outcome.Clear();
         _income.Clear();
