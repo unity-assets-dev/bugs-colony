@@ -9,7 +9,7 @@ Patterns to use: **Strategy, DoubleDispatch, Command, AbstactFactory, Proxy, UI 
 NavMesh Agent through the HeatMap which I realized with a BurstCompile and IJobParallelFor multithread
 
 ### Heat map example ###
-![HeatMap example](/heat-map.jpg)
+![HeatMap example](https://unity-assets-dev.github.io/bugs-colony/heat-map.jpg)
 ___
 ## Description
 
