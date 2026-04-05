@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerFactory
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFactory
   _prefab: {fileID: 9070130807973419314, guid: 029af0048835a446489ba25ec6814c57, type: 3}
-  _searchRadius: 10
+  _aimRadius: 10
   _lifeTime: 10
   _actorMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64

@@ -57,7 +57,7 @@ public class Predator : IBugActor, IInteractionHandler, IConsumableTarget {
     public void OnConsume() => SetState(ActorState.Died);
 
     public void ConsumeTarget(IActor actor) {
-        if (actor is IConsumableTarget target) {
+        if (actor is IConsumableTarget target && target is not Predator) {
             _collectedFood++;
             
             if(_model.RenewOnSupply)
@@ -104,7 +104,7 @@ public class Predator : IBugActor, IInteractionHandler, IConsumableTarget {
         
         if (hits > 0) {
             for (var i = 0; i < hits; i++) {
-                if (_cache[i].TryGetComponent<ActorView>(out var collider) && collider.Actor is IConsumableTarget) {
+                if (_cache[i].TryGetComponent<ActorView>(out var collider) && collider.Actor is IConsumableTarget target && target is not Predator) {
                     foodPosition = collider.transform.position;
                     return true;
                 };

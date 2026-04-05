@@ -19,4 +19,4 @@ MonoBehaviour:
     m_Bits: 64
   _foodToSplit: 2
   _childrenCount: 1
-  _mutationChance: 10
+  _mutationChance: 30

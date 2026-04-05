@@ -2,16 +2,19 @@ using System;
 using UnityEngine;
 
 public interface IPlayerModel {
-    
+    float AimDistance { get; }
+    LayerMask ActorMask { get;  }
 }
 
 public class Player : IBugActor, IConsumableTarget {
-    
+    private readonly RaycastHit[] _cache = new RaycastHit[20];
     private readonly IPlayerModel _model;
     private readonly PlayerView _view;
     private readonly IHeatMap _map;
     private ActorState _state;
     private readonly Plane _plane;
+    private float _reload;
+
 
     public event Action<ActorStateAction> OnStateChanged;
     public event Action<IActor, ActorView> OnDisposed;
@@ -41,7 +44,41 @@ public class Player : IBugActor, IConsumableTarget {
         
         _view.Transform.Translate(RotateToCameraRotation(input));
 
-        HandleInputRotation(dt);
+        var direction = HandleInputRotation(dt);
+
+        if ((_reload -= dt) > 0) return;
+        _reload = 1;
+        
+        if (HandleTargets(direction, out var target)) {
+            if (target != null) {
+                ShootTo(target);
+            }
+        }
+    }
+
+    private void ShootTo(IActor target) {
+        Debug.Log($"Shoot em target");
+        OnStateChanged?.Invoke(ActorStateAction.Consume(this, target));
+        _reload = 1;
+    }
+
+    private bool HandleTargets(Vector3 direction, out IActor target) {
+        target = null;
+        
+        direction.Normalize();
+        
+        var hits = Physics.SphereCastNonAlloc(_view.Transform.position, .5f, direction, _cache, _model.AimDistance, _model.ActorMask);
+        
+        if (hits == 0) return false;
+
+        for (var i = 0; i < hits; i++) {
+            if (_cache[i].collider.TryGetComponent<PredatorView>(out var result)) {
+                target = result.Actor;
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private Vector3 FromProjectToPlane() {
@@ -50,11 +87,13 @@ public class Player : IBugActor, IConsumableTarget {
         return ray.GetPoint(hit);
     }
     
-    private void HandleInputRotation(float dt) {
+    private Vector3 HandleInputRotation(float dt) {
         var mousePosition = FromProjectToPlane();
         var direction = mousePosition - _view.Transform.position;
         
         _view.RotateTo(direction, dt);
+        
+        return direction;
     }
 
     private static Vector3 HandleInputMovement(float dt) {

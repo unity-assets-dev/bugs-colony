@@ -3,11 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Pools/Create PlayerFactory", fileName = "PlayerFactory", order = 0)]
 public class PlayerFactory : ActorModel<Player>, IPlayerModel {
     
-    [SerializeField] private  float _searchRadius = 10f;
+    [SerializeField] private  float _aimRadius = 10f;
     [SerializeField] private  float _lifeTime = 10f;
     [SerializeField] private  LayerMask _actorMask;
-    
-    public float SearchRadius => _searchRadius;
+
+    public float AimDistance => _aimRadius;
     public float LifeTime => _lifeTime;
     public LayerMask ActorMask => _actorMask;
 

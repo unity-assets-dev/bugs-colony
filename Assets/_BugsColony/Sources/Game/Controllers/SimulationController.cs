@@ -12,6 +12,8 @@ public class SimulationController: ISimulationController {
     private Player _player;
 
     public event Action<IActor> ActorDied;
+    public event Action<int> WorkersCountChanged;
+    public event Action<IActor> ActorKilled;
     
     public SimulationController(ActorContainer container, CameraDrag camera, ScenarioMap map, ActorFactory factory) {
         _container = container;
@@ -34,6 +36,10 @@ public class SimulationController: ISimulationController {
         if (actor is Player player) {
             _player = player;
             _camera.Follow(_player.Position);
+        }
+
+        if (actor is Worker worker) {
+            WorkersCountChanged?.Invoke(_container.CountOf<Worker>());
         }
     }
 
@@ -94,6 +100,10 @@ public class SimulationController: ISimulationController {
                 if (action.Target is IConsumableTarget target) {
                     target.OnConsume();
                 }
+
+                if (action.Sender is Player player) {
+                    ActorKilled?.Invoke(action.Target);
+                }
                 
                 break;
             
@@ -109,7 +119,6 @@ public class SimulationController: ISimulationController {
     }
 
     private void DisposeActor(IActor actor) {
-        
         actor.OnStateChanged -= OnActorStateChanged;
         actor.Dispose();
         _container.RemoveActor(actor);
@@ -132,7 +141,8 @@ public class SimulationController: ISimulationController {
     public void Dispose() {
         // Free resources;
         _container.ActorSpawn -= OnActorWasSpawned;
-        _container.Dispose().EachNonAlloc(DisposeActor);
+        _container.EachNonAlloc(DisposeActor);
+        _player = null;
         _map.ResetMap();
     }
 }

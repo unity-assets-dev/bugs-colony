@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PredatorFactory
   m_EditorClassIdentifier: Assembly-CSharp::PredatorFactory
   _prefab: {fileID: 2845284851294802761, guid: e37cb33df806f4de4ba59653ed456411, type: 3}
-  _searchRadius: 10
-  _lifeTime: 10
+  _searchRadius: 15
+  _lifeTime: 180
   _actorMask:
     serializedVersion: 2
     m_Bits: 64
-  _foodToSplit: 3
+  _foodToSplit: 4
   _childrenCount: 1
-  _renewOnSupply: 1
+  _renewOnSupply: 0

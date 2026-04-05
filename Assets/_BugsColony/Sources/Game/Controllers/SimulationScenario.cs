@@ -29,12 +29,23 @@ public class SimulationScenario : ISimulationScenario {
     
     public void Run() {
         _running = true;
-        _controller.ActorDied += OnActorDied;
+        
+        _controller.WorkersCountChanged += OnWorkerCountChanged;
+        _controller.ActorKilled += OnActorKilled;
+        
         _controller.Startup();
     }
 
+    private void OnWorkerCountChanged(int count) {
+        _model.Workers.Set(count);
+    }
+
+    private void OnActorKilled(IActor target) {
+        _model.Kills.Add();
+    }
+
     private void OnActorDied(IActor actor) {
-        if(actor is Predator) _model.Predators.Add();
+        if(actor is Predator) _model.Targets.Add();
         if(actor is Worker) _model.Workers.Add();
     }
 
@@ -51,7 +62,9 @@ public class SimulationScenario : ISimulationScenario {
     }
     
     public void Stop() {
-        _controller.ActorDied -= OnActorDied;
+        _controller.WorkersCountChanged -= OnWorkerCountChanged;
+        //_controller.ActorDied -= OnActorDied;
+        _controller.ActorKilled -= OnActorKilled;
         _running = false;
         
         _controller.Dispose();

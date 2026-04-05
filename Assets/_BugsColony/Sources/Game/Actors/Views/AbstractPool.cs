@@ -38,9 +38,9 @@ public abstract class AbstractPool<T> : AbstractPool where T : MonoBehaviour {
     public void Dispose(T instance) {
         if (_active.Contains(instance)) {
             _active.Remove(instance);
+            
+            AddInstance(instance);
         }
-        
-        AddInstance(instance);
     }
     
     public void AddPrefab(T view) {

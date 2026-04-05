@@ -11,6 +11,7 @@ public class ActorContainer: IEnumerable<IActor> {
     private readonly HashSet<IActor> _outcome = new();
     public event Action<IActor> ActorSpawn;
 
+    public int CountOf<TActor>() where TActor: IActor => _actors.OfType<TActor>().Count();
 
     public void AddActor(IActor actor) => _income.Add(actor);
 
